@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Job Application Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f0f2f5;
+    }
+
+    form {
+      max-width: 500px;
+      margin: auto;
+      background-color: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      margin-top: 15px;
+      display: block;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .error {
+      color: red;
+      font-size: 13px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="jobForm" onsubmit="return validateForm()">
+    <h2>Job Application Form</h2>
+
+    <label for="name">Full Name *</label>
+    <input type="text" id="name" name="name">
+    <div id="nameError" class="error"></div>
+
+    <label for="phone">Phone Number *</label>
+    <input type="tel" id="phone" name="phone">
+    <div id="phoneError" class="error"></div>
+
+    <label for="email">Email Address *</label>
+    <input type="email" id="email" name="email">
+    <div id="emailError" class="error"></div>
+
+    <label for="gender">Gender *</label>
+    <select id="gender" name="gender">
+      <option value="">-- Select --</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+    <div id="genderError" class="error"></div>
+
+    <label for="position">Position Applied For *</label>
+    <input type="text" id="position" name="position">
+    <div id="positionError" class="error"></div>
+
+    <label for="resume">Upload Resume (PDF or DOC only) *</label>
+    <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx">
+    <div id="resumeError" class="error"></div>
+
+    <label for="cover">Cover Letter (Optional)</label>
+    <textarea id="cover" name="cover" rows="4" placeholder="Write something..."></textarea>
+
+    <button type="submit">Submit Application</button>
+  </form>
+
+  <script>
+    function validateForm() {
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const gender = document.getElementById("gender").value;
+      const position = document.getElementById("position").value.trim();
+      const resume = document.getElementById("resume").value;
+
+      let isValid = true;
+
+      // Name: only letters, no space or digits
+      const nameRegex = /^[A-Za-z]+$/;
+      if (!nameRegex.test(name)) {
+        document.getElementById("nameError").textContent = "Only alphabets allowed, no spaces or numbers.";
+        isValid = false;
+      } else {
+        document.getElementById("nameError").textContent = "";
+      }
+
+      // Phone: exactly 10 digits
+      const phoneRegex = /^[0-9]{10}$/;
+      if (!phoneRegex.test(phone)) {
+        document.getElementById("phoneError").textContent = "Enter exactly 10 digits.";
+        isValid = false;
+      } else {
+        document.getElementById("phoneError").textContent = "";
+      }
+
+      // Email: simple validation
+      const emailRegex = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      if (!emailRegex.test(email)) {
+        document.getElementById("emailError").textContent = "Invalid email format.";
+        isValid = false;
+      } else {
+        document.getElementById("emailError").textContent = "";
+      }
+
+      // Gender selection
+      if (gender === "") {
+        document.getElementById("genderError").textContent = "Please select gender.";
+        isValid = false;
+      } else {
+        document.getElementById("genderError").textContent = "";
+      }
+
+      // Position
+      if (position === "") {
+        document.getElementById("positionError").textContent = "Please enter the job title.";
+        isValid = false;
+      } else {
+        document.getElementById("positionError").textContent = "";
+      }
+
+      // Resume validation
+      const allowedExtensions = /(\.pdf|\.doc|\.docx)$/i;
+      if (!allowedExtensions.exec(resume)) {
+        document.getElementById("resumeError").textContent = "Only PDF or DOC files allowed.";
+        isValid = false;
+      } else {
+        document.getElementById("resumeError").textContent = "";
+      }
+
+      return isValid;
+    }
+  </script>
+
+</body>
+</html>
